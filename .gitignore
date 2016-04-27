@@ -13,3 +13,4 @@ examples/cert.pem
 .project
 .pydevproject
 .*~
+/.settings
