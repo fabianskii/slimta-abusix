@@ -14,4 +14,5 @@ RUN apt-get install -y \
     python-redis \
     libpython-dev
     
-RUN pip install -e git+https://github.com/abusix/python-slimta.git@develop#egg=slimta
+RUN pip install -e \
+    git+https://github.com/abusix/python-slimta.git@develop#egg=slimta
