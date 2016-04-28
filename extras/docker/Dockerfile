@@ -26,6 +26,6 @@ RUN pip install -e \
 
 
 # add supervisor configs
-ADD extras/docker/supervisor.conf /etc/supervisor/conf.d/slimta.conf
+ADD /extras/docker/supervisor.conf /etc/supervisor/conf.d/slimta.conf
 
 CMD ["/usr/bin/supervisord","-n", "-c","/etc/supervisor/supervisord.conf"]
