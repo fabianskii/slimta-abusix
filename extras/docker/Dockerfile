@@ -2,6 +2,10 @@
 FROM debian:latest
 MAINTAINER David G.R.C. Furminieux
 
+# configure which ports will be exposed
+EXPOSE 25
+EXPOSE 587
+
 
 # update and upgrade the system!
 RUN apt-get update && apt-get upgrade -y
