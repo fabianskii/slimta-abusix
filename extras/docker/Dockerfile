@@ -16,3 +16,5 @@ RUN apt-get install -y \
     
 RUN pip install -e \
     git+https://github.com/abusix/python-slimta.git@develop#egg=slimta
+    
+CMD ["/bin/bash"]
