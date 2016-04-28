@@ -2,6 +2,7 @@
 FROM debian:latest
 MAINTAINER David G.R.C. Furminieux
 
+
 # update and upgrade the system!
 RUN apt-get update && apt-get upgrade -y
 
@@ -12,9 +13,15 @@ RUN apt-get install -y \
     python-pip \
     python-setuptools-git \
     python-redis \
-    libpython-dev
+    libpython-dev \
+    supervisor \
+    jed
     
 RUN pip install -e \
     git+https://github.com/abusix/python-slimta.git@develop#egg=slimta
-    
-CMD ["/bin/sleep","50"]
+
+
+# add supervisor configs
+ADD extras/docker/supervisor.conf /etc/supervisor/conf.d/slimta.conf
+
+CMD ["/usr/bin/supervisord","-n", "-c","/etc/supervisor/supervisord.conf"]
