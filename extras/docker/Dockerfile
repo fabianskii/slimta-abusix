@@ -10,7 +10,7 @@ EXPOSE 587
 ENV REDIS_URL redis://localhost/
 ENV REDIS_TARGET mails-topic
 ENV REDIS_TARGET_TYPE -t
-ENV MTA_PORTS 25 587
+ENV MTA_PORTS="25 587"
 
 # update and upgrade the system!
 RUN apt-get update && apt-get upgrade -y
