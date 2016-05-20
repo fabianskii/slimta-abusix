@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from logging import getLogger
-from slimta.relay import Relay
+from slimta.relay import Relay, PermanentRelayError
 from slimta.smtp.reply import Reply, unhandled_error
 from time import sleep
 import uuid
@@ -64,17 +64,17 @@ class RedisQueueRelay(RedisRelay):
         self._qname = qname
 
     def attempt(self, envelope, attempts):
-        encoded = self._encoder.encode(envelope)
-        self._reconnect_if_necessary()
-        msgId = uuid.uuid4()
-
         try:
+            encoded = self._encoder.encode(envelope)
+            self._reconnect_if_necessary()
+            msgId = uuid.uuid4()
+
             self._connection.rpush(self._qname, encoded)
             return Reply('250', '2.0.0 Message Delivered; {0!s}'.format(msgId))
         except:
             msg = 'while attempting to deliver envelope'
             self._log.error(msg, exc_info=True)
-        return unhandled_error
+        return PermanentRelayError('unable to deliver')
 
     def kill(self):
         raise NotImplementedError(type(self))
@@ -87,11 +87,11 @@ class RedisPublisherRelay(RedisRelay):
         self._channel = str(channel)
 
     def attempt(self, envelope, attempts):
-        encoded = self._encoder.encode(envelope)
-        self._reconnect_if_necessary()
-        msgId = uuid.uuid4()
-
         try:
+            encoded = self._encoder.encode(envelope)
+            self._reconnect_if_necessary()
+            msgId = uuid.uuid4()
+
             self._connection.publish(self._channel, encoded)
             return Reply('250', '2.0.0 Message Delivered; {0!s}'.format(msgId))
         except:
