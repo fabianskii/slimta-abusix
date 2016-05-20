@@ -24,11 +24,11 @@ RUN apt-get install -y \
     python-redis \
     libpython-dev \
     supervisor \
-    jed
+    jed \
+    net-tools
     
 RUN pip install -e \
     git+https://github.com/abusix/python-slimta.git@develop#egg=slimta
-
 
 # add supervisor configs
 ADD supervisor.conf /etc/supervisor/conf.d/slimta.conf
