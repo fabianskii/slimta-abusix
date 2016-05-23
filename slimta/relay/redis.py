@@ -77,7 +77,7 @@ class RedisQueueRelay(RedisRelay):
         except:
             msg = 'while attempting to deliver envelope'
             self._log.error(msg, exc_info=True)
-        return PermanentRelayError('unable to deliver')
+            return PermanentRelayError('unable to deliver')
 
 
 class RedisPublisherRelay(RedisRelay):
@@ -97,4 +97,4 @@ class RedisPublisherRelay(RedisRelay):
         except:
             msg = 'while attempting to deliver envelope'
             self._log.error(msg, exc_info=True)
-        return unhandled_error
+            return unhandled_error
