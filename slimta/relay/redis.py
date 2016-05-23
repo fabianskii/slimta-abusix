@@ -41,6 +41,9 @@ class RedisRelay(Relay):
 
     def _reconnect_if_necessary(self):
         # this looks like it is terribly wrong since it could never terminate
+        if self._connection is not None:
+            return
+
         while not self._interupted:
             try:
                 self._connection = StrictRedis.from_url(
@@ -52,6 +55,7 @@ class RedisRelay(Relay):
             except ConnectionError:
                 self._log.warn('while connecting', exc_info=True)
                 sleep(2)
+                self._connection = None
 
     def attempt(self, envelope, attempts):
         raise NotImplementedError(type(self))
