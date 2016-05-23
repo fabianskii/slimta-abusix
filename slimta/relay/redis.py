@@ -56,6 +56,9 @@ class RedisRelay(Relay):
     def attempt(self, envelope, attempts):
         raise NotImplementedError(type(self))
 
+    def kill(self):
+        self._connection = None
+
 
 class RedisQueueRelay(RedisRelay):
 
@@ -76,9 +79,6 @@ class RedisQueueRelay(RedisRelay):
             self._log.error(msg, exc_info=True)
         return PermanentRelayError('unable to deliver')
 
-    def kill(self):
-        raise NotImplementedError(type(self))
-
 
 class RedisPublisherRelay(RedisRelay):
 
@@ -98,6 +98,3 @@ class RedisPublisherRelay(RedisRelay):
             msg = 'while attempting to deliver envelope'
             self._log.error(msg, exc_info=True)
         return unhandled_error
-
-    def kill(self):
-        raise NotImplementedError(type(self))
