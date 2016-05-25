@@ -74,17 +74,17 @@ class SmtpValidators(object):
     """
 
     def __init__(self, session):
-        #: This instance attribute is an object that has its own set of
-        #: attributes which may be useful in validation:
-        #:
-        #:  - ``address``: The address tuple of the connecting client.
-        #:  - ``extended_smtp``: The client used EHLO instead of HELO.
-        #:  - ``security``: Security of connection, ``None`` or ``'TLS'``.
-        #:  - ``ehlo_as``: The EHLO or HELO string given by the client.
-        #:  - ``auth``: A tuple of the form ``(authcid, authzid)`` if the
-        #:              client has authenticated.
-        #:  - ``envelope``: The |Envelope| being pieced together to send by the
-        #:                  connecting client.
+        # : This instance attribute is an object that has its own set of
+        # : attributes which may be useful in validation:
+        # :
+        # :  - ``address``: The address tuple of the connecting client.
+        # :  - ``extended_smtp``: The client used EHLO instead of HELO.
+        # :  - ``security``: Security of connection, ``None`` or ``'TLS'``.
+        # :  - ``ehlo_as``: The EHLO or HELO string given by the client.
+        # :  - ``auth``: A tuple of the form ``(authcid, authzid)`` if the
+        # :              client has authenticated.
+        # :  - ``envelope``: The |Envelope| being pieced together to send by the
+        # :                  connecting client.
         self.session = session
 
 
@@ -103,7 +103,7 @@ class SmtpSession(object):
         self.auth = None
 
     def _call_validator(self, command, *args):
-        method = 'handle_'+command
+        method = 'handle_' + command
         if hasattr(self.validators, method):
             getattr(self.validators, method)(*args)
 
@@ -119,8 +119,8 @@ class SmtpSession(object):
         return proto
 
     def BANNER_(self, reply):
-        self._ptr_lookup = PtrLookup(self.address[0])
-        self._ptr_lookup.start()
+        # self._ptr_lookup = PtrLookup(self.address[0])
+        # self._ptr_lookup.start()
         self._call_validator('banner', reply, self.address)
 
     def EHLO(self, reply, ehlo_as):
