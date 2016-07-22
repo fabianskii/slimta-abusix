@@ -13,24 +13,32 @@ ENV REDIS_TARGET_TYPE -t
 ENV MTA_PORTS="25 587"
 
 # update and upgrade the system!
-RUN apk update && apk upgrade -y
+RUN apk update && apk upgrade
 
-# install dependencies
-# RUN apt-get install -y apt-utils
-# RUN apt-get install -y \
-#    git \
-#    python-pip \
-#    python-setuptools-git \
-#    python-redis \
-#    libpython-dev \
-#    supervisor \
-#    jed \
-#    net-tools
-    
-#RUN pip install -e \
-#    git+https://github.com/abusix/python-slimta.git@develop#egg=slimta
+# install slimta dependencies
+RUN apk add python
+RUN apk add py-redis
+RUN apk add py-hiredis
+RUN apk add py-setuptools
+
+
+# install deployment dependencies
+RUN apk add aports-build
+RUN apk add python-dev
+RUN apk add py-pip
+RUN apk add py-setuptools
+
+# build the package
+RUN pip install -e \
+    git+https://github.com/abusix/python-slimta.git@develop#egg=slimta
+
+# delete deployment dependencies
+RUN apk del aports-build
+RUN apk del python-dev
+RUN apk del py-pip
+
 
 # add supervisor configs
-#ADD supervisor.conf /etc/supervisor/conf.d/slimta.conf
+ADD supervisor.conf /etc/supervisor/conf.d/slimta.conf
     
-#CMD ["/usr/bin/supervisord","-n", "-c","/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord","-n", "-c","/etc/supervisor/supervisord.conf"]
