@@ -26,10 +26,9 @@ RUN apk add py-setuptools
 RUN apk add aports-build
 RUN apk add python-dev
 RUN apk add py-pip
-RUN apk add py-setuptools
 
 # build the package
-RUN pip install -e \
+RUN pip install \
     git+https://github.com/abusix/python-slimta.git@develop#egg=slimta
 
 # delete deployment dependencies
