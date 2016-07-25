@@ -27,7 +27,7 @@ RUN apt-get install -y \
     jed \
     net-tools
     
-RUN pip install -e \
+RUN pip install \
     git+https://github.com/abusix/python-slimta.git@develop#egg=slimta
 
 # add supervisor configs
