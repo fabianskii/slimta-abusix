@@ -257,7 +257,9 @@ class Server(object):
             bad_sequence.send(self.io)
             return
 
-        ehlo_as = ehlo_as.decode('utf-8') if ehlo_as is not None else ''
+        # the default case may not be empty because logical negation produces
+        # true
+        ehlo_as = ehlo_as.decode('utf-8') if ehlo_as is not None else ' '
         reply = Reply('250', 'Hello ' + ehlo_as)
         reply.enhanced_status_code = False
         self._call_custom_handler('EHLO', reply, ehlo_as)
@@ -278,7 +280,9 @@ class Server(object):
             bad_sequence.send(self.io)
             return
 
-        ehlo_as = ehlo_as.decode('utf-8')
+        # the default case may not be empty because logical negation produces
+        # true
+        ehlo_as = ehlo_as.decode('utf-8') if ehlo_as is not None else ' '
         reply = Reply('250', 'Hello ' + ehlo_as)
         reply.enhanced_status_code = False
         self._call_custom_handler('HELO', reply, ehlo_as)
