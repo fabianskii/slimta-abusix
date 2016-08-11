@@ -52,9 +52,9 @@ def find_outside_quotes(haystack, needle, start_i=0, quotes=b'"'):
     quoted = None
     h_len = len(haystack)
     n_len = len(needle)
-    for i in range(start_i, h_len-n_len+1):
+    for i in range(start_i, h_len - n_len + 1):
         if not quoted:
-            if haystack[i:i+n_len] == needle:
+            if haystack[i:i + n_len] == needle:
                 return i
             for quote in quotes:
                 if haystack[i] == quote:
@@ -173,7 +173,7 @@ class Server(object):
 
     def _handle_command(self, which, arg):
         which_str = which.decode('ascii')
-        method = '_command_'+which_str
+        method = '_command_' + which_str
         if hasattr(self, method):
             return getattr(self, method)(arg)
         else:
@@ -257,8 +257,8 @@ class Server(object):
             bad_sequence.send(self.io)
             return
 
-        ehlo_as = ehlo_as.decode('utf-8')
-        reply = Reply('250', 'Hello '+ehlo_as)
+        ehlo_as = ehlo_as.decode('utf-8') if ehlo_as is not None else ''
+        reply = Reply('250', 'Hello ' + ehlo_as)
         reply.enhanced_status_code = False
         self._call_custom_handler('EHLO', reply, ehlo_as)
 
@@ -279,7 +279,7 @@ class Server(object):
             return
 
         ehlo_as = ehlo_as.decode('utf-8')
-        reply = Reply('250', 'Hello '+ehlo_as)
+        reply = Reply('250', 'Hello ' + ehlo_as)
         reply.enhanced_status_code = False
         self._call_custom_handler('HELO', reply, ehlo_as)
         reply.send(self.io)
@@ -361,7 +361,7 @@ class Server(object):
             bad_sequence.send(self.io)
             return
 
-        params = self._gather_params(arg[end+1:])
+        params = self._gather_params(arg[end + 1:])
 
         if b'SIZE' in params:
             try:
@@ -403,7 +403,7 @@ class Server(object):
             bad_sequence.send(self.io)
             return
 
-        params = self._gather_params(arg[end+1:])
+        params = self._gather_params(arg[end + 1:])
 
         reply = Reply('250', '2.1.5 Recipient <{0}> Ok'.format(address))
         self._call_custom_handler('RCPT', reply, address, params)
