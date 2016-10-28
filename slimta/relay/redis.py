@@ -8,6 +8,7 @@ import uuid
 
 from redis import StrictRedis
 from redis.exceptions import ConnectionError
+from redis.connection import BlockingConnectionPool
 
 
 class RedisRelay(Relay):
@@ -15,7 +16,7 @@ class RedisRelay(Relay):
     post every envelope this relay gets to redis channels!
     '''
 
-    def __init__(self, url):
+    def __init__(self, url, max_connections=None):
         super(RedisRelay, self).__init__()
         self._log = getLogger('system.relay.redis')
         self._connection = None
@@ -26,6 +27,7 @@ class RedisRelay(Relay):
         self._socket_timeout = 1
         self._socket_connect_timeout = 1
         self._socket_keepalive = True
+        self._max_connections = max_connections
 
     def set_socket_connect_timeout(self, value):
         self._socket_connect_timeout = int(value)
@@ -46,11 +48,13 @@ class RedisRelay(Relay):
 
         while not self._interupted:
             try:
-                self._connection = StrictRedis.from_url(
+                pool = BlockingConnectionPool.from_url(
                     self._url,
                     socket_timeout=self._socket_timeout,
                     socket_connect_timeout=self._socket_connect_timeout,
-                    socket_keepalive=self._socket_keepalive)
+                    socket_keepalive=self._socket_keepalive,
+                    max_connections=self._max_connections)
+                self._connection = StrictRedis(connection_pool=pool)
                 return
             except ConnectionError:
                 self._log.warn('while connecting', exc_info=True)
@@ -66,8 +70,8 @@ class RedisRelay(Relay):
 
 class RedisQueueRelay(RedisRelay):
 
-    def __init__(self, url, qname):
-        super(RedisQueueRelay, self).__init__(url)
+    def __init__(self, url, qname, max_connections=None):
+        super(RedisQueueRelay, self).__init__(url, max_connections)
         self._qname = qname
 
     def attempt(self, envelope, attempts):
@@ -86,8 +90,8 @@ class RedisQueueRelay(RedisRelay):
 
 class RedisPublisherRelay(RedisRelay):
 
-    def __init__(self, url, channel):
-        super(RedisPublisherRelay, self).__init__(url)
+    def __init__(self, url, channel, max_connections=None):
+        super(RedisPublisherRelay, self).__init__(url, max_connections)
         self._channel = str(channel)
 
     def attempt(self, envelope, attempts):
