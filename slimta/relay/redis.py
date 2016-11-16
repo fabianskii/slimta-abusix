@@ -75,12 +75,18 @@ class RedisQueueRelay(RedisRelay):
         self._qname = qname
 
     def attempt(self, envelope, attempts):
+
+        MAX_AMOUNT = 20000
+        SLICE_AMOUNT = 100
+
         try:
             encoded = self._encoder.encode(envelope)
             self._reconnect_if_necessary()
             msgId = uuid.uuid4()
 
-            self._connection.rpush(self._qname, encoded)
+            amount = self._connection.rpush(self._qname, encoded)
+            if amount > MAX_AMOUNT + SLICE_AMOUNT:
+                self._connection.ltrim(self._qname, 0, MAX_AMOUNT)
             return Reply('250', '2.0.0 Message Delivered; {0!s}'.format(msgId))
         except:
             msg = 'while attempting to deliver envelope'
