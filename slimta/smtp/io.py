@@ -97,7 +97,7 @@ class IO(object):
             if e.errno == ECONNRESET:
                 raise ConnectionLost()
             raise
-        log.recv("BLABALBALABLABALBAL", data)
+        log.recv(self.socket, "blablablablabla")
         log.recv(self.socket, data)
         if data == b'':
             raise ConnectionLost()
