@@ -136,6 +136,7 @@ class Server(object):
 
     def _recv_command(self):
         with Timeout(self.command_timeout):
+            print "receive command"
             return self.io.recv_command()
 
     def _get_message_data(self):
