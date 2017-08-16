@@ -127,6 +127,7 @@ class DataReader(object):
         :rtype: bytes
 
         """
+        print "blabla"
         self.from_recv_buffer()
         while self.recv_piece():
             pass
