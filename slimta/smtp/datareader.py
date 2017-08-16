@@ -101,7 +101,7 @@ class DataReader(object):
     def recv_piece(self):
         if self.EOD is not None:
             return False
-        print "add line"
+
         piece = self.io.raw_recv()
         if piece == b'':
             raise ConnectionLost()
@@ -133,7 +133,7 @@ class DataReader(object):
         
         self.from_recv_buffer()
         while self.recv_piece():
-            pass
+            print "add line"
         return self.return_all()
 
 
