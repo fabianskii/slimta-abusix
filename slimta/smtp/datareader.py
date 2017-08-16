@@ -69,7 +69,7 @@ class DataReader(object):
         self.io.recv_buffer = b''
 
     def handle_finished_line(self):
-        print "end of data"
+
         i = self.i
         line = self.lines[i]
 
@@ -93,6 +93,7 @@ class DataReader(object):
         for match in fullline_pattern.finditer(piece):
             last = match.end(0)
             self._append_line(match.group(0))
+            print "add line"
             self.handle_finished_line()
         after_match = piece[last:]
         self._append_line(after_match)
