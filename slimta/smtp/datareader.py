@@ -120,7 +120,7 @@ class DataReader(object):
 
         # Save the extra lines back on the recv_buffer.
         self.io.recv_buffer = b''.join(after_data_lines)
-        print "here we go1"
+
         # Return the data as one big string
         return b''.join(data_lines)
 
