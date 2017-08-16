@@ -139,6 +139,7 @@ class Server(object):
             return self.io.recv_command()
 
     def _get_message_data(self):
+        print "blabla"
         max_size = self.extensions.getparam('SIZE', filter=int)
         reader = DataReader(self.io, max_size)
 
