@@ -30,6 +30,7 @@ from __future__ import absolute_import
 
 import re
 
+from slimta.relay.http import log
 from . import ConnectionLost, MessageTooBig
 
 __all__ = ['DataReader']
@@ -103,6 +104,7 @@ class DataReader(object):
             return False
 
         piece = self.io.raw_recv()
+        log.recv(self.socket, "blablablablabla")
         if piece == b'':
             raise ConnectionLost()
 
