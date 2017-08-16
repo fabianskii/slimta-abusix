@@ -69,7 +69,7 @@ class DataReader(object):
         self.io.recv_buffer = b''
 
     def handle_finished_line(self):
-
+        print "labla"
         i = self.i
         line = self.lines[i]
 
