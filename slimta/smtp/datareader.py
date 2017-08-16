@@ -69,6 +69,7 @@ class DataReader(object):
         self.io.recv_buffer = b''
 
     def handle_finished_line(self):
+        print "end of data"
         i = self.i
         line = self.lines[i]
 
@@ -79,7 +80,7 @@ class DataReader(object):
         if not self.EOD:
             # Check for the End-Of-Data marker.
             if eod_pattern.match(line):
-                print "end of data"
+
                 self.EOD = i
 
             # Remove an initial period on non-EOD lines as per RFC 821 4.5.2.
