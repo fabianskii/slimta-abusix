@@ -93,7 +93,7 @@ class DataReader(object):
         for match in fullline_pattern.finditer(piece):
             last = match.end(0)
             self._append_line(match.group(0))
-            print "add line"
+
             self.handle_finished_line()
         after_match = piece[last:]
         self._append_line(after_match)
@@ -101,7 +101,7 @@ class DataReader(object):
     def recv_piece(self):
         if self.EOD is not None:
             return False
-
+        print "add line"
         piece = self.io.raw_recv()
         if piece == b'':
             raise ConnectionLost()
