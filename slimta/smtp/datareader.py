@@ -117,7 +117,7 @@ class DataReader(object):
     def return_all(self):
         data_lines = self.lines[:self.EOD]
         after_data_lines = self.lines[self.EOD+1:]
-
+        print "here we go"
         # Save the extra lines back on the recv_buffer.
         self.io.recv_buffer = b''.join(after_data_lines)
 
@@ -133,7 +133,7 @@ class DataReader(object):
         
         self.from_recv_buffer()
         while self.recv_piece():
-            print "add line"
+            pass
         return self.return_all()
 
 
