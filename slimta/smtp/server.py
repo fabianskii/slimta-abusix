@@ -145,13 +145,8 @@ class Server(object):
 
         err = None
         with Timeout(self.data_timeout):
-            try:
-                data = reader.recv()
-            except ConnectionLost:
-                raise
-            except SmtpError as e:
-                data = None
-                err = e
+            data = reader.recv()
+            print data
 
         reply = Reply('250', '2.6.0 Message accepted for delivery')
         self._call_custom_handler('HAVE_DATA', reply, data, err)
