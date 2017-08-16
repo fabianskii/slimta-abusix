@@ -139,14 +139,14 @@ class Server(object):
             return self.io.recv_command()
 
     def _get_message_data(self):
-        print "blabla"
+
         max_size = self.extensions.getparam('SIZE', filter=int)
         reader = DataReader(self.io, max_size)
 
         err = None
         with Timeout(self.data_timeout):
             data = reader.recv()
-            print data
+
 
         reply = Reply('250', '2.6.0 Message accepted for delivery')
         self._call_custom_handler('HAVE_DATA', reply, data, err)
