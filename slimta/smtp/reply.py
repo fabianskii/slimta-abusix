@@ -57,7 +57,7 @@ class Reply(object):
     def __init__(self, code=None, message=None, command=None, address=None):
         self.command = command
         self.address = address
-
+        print "here we g2: %s" % (str(address))
         #: Holds the reply code, which can only be set to a string containing
         #: three digits.
         self.code = code

@@ -149,6 +149,7 @@ class Server(object):
 
         print "here we go1"
         reply = Reply('250', '2.6.0 Message accepted for delivery')
+        print "here we go3"
         self._call_custom_handler('HAVE_DATA', reply, data, err)
 
         self.io.send_reply(reply)
