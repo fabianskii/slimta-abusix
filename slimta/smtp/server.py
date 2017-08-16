@@ -145,7 +145,7 @@ class Server(object):
 
         err = None
         print "here we go0"
-        with Timeout(self.data_timeout):
+        with Timeout(None):
             print "looper"
             data = reader.recv()
 

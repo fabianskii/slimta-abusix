@@ -134,6 +134,7 @@ class DataReader(object):
         self.from_recv_buffer()
         while self.recv_piece():
             pass
+        print "received"
         return self.return_all()
 
 
