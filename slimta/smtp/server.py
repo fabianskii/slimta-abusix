@@ -144,7 +144,9 @@ class Server(object):
         reader = DataReader(self.io, max_size)
 
         err = None
+        print "here we go0"
         with Timeout(self.data_timeout):
+            print "looper"
             data = reader.recv()
 
         print "here we go1"
